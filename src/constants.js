@@ -1,0 +1,1 @@
+export const INPUT_IMAGE_LINK = 'INPUT_IMAGE_LINK';
