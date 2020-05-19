@@ -36,7 +36,7 @@ class App extends Component {
         super();
         this.state = {
             input: '',
-            imageURL: ''
+            imageUrl: ''
         }
     }
 
@@ -47,13 +47,19 @@ class App extends Component {
         console.log('input: ' + this.input);
     }
 
-    onSubmit = () => {
-        this.setState({imageURL: this.state.input});
+    onButtonSubmit = () => {
+        console.log('ori: '+this.state.imageUrl);
+        this.setState({imageUrl: this.state.input});
         console.log('1: '+this.state.input);
-        console.log('2: '+this.imageUrl);
-        app.models.predict(Clarifai.COLOR_MODEL, this.state.input).then(
+        console.log('2: '+this.state.imageUrl);
+        app.models
+            .predict(
+                Clarifai.FACE_DETECT_MODEL, 
+                // why cannot use this.state.imageUrl
+                this.state.input)
+            .then(
             function(response) {
-                console.log(response);
+                console.log(response.outputs[0].data.regions[0].region_info.bounding_box);
             },
             function(err) {
             // there was an error
@@ -70,9 +76,9 @@ class App extends Component {
                 <Rank />
                 <ImageLinkForm 
                     onInputChange={this.onInputChange} 
-                    onButtonSubmit={this.onSubmit}
+                    onButtonSubmit={this.onButtonSubmit}
                 />
-                <FaceRecognition imageURL={this.imageUrl} />
+                <FaceRecognition imageUrl={this.state.imageUrl} />
             </div>
         );
     }
