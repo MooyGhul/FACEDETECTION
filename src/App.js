@@ -45,6 +45,14 @@ class App extends Component {
         }
     }
 
+    componentDidMount() {
+        fetch('http://localhost:3000')
+            .then(response => response.json())
+            //.then(data => console.log(data))
+            // can be written as:
+            .then(console.log)
+    }
+
     calculateFaceLocation = (data) => {
         const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
         console.log(clarifaiFace);
@@ -99,7 +107,7 @@ class App extends Component {
                 { this.state.route === 'signin' ?
                     <Signin onRouteChange={this.onRouteChange}/>
                     : (
-                        this.state.route == 'home'
+                        this.state.route === 'home'
                             ?<div>
                                 <Logo />
                                 <Rank />
